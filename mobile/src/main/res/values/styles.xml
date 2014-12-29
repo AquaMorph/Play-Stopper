@@ -1,0 +1,8 @@
+<resources>
+
+    <style name="HoloLight" parent="Theme.AppCompat.Light">
+    </style>
+    <style name="HoloDark" parent="Theme.AppCompat">
+    </style>
+
+</resources>

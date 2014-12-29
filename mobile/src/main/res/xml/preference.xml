@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <intent android:action="android.intent.action.VIEW"
+        android:targetPackage="com.example"
+        android:targetClass="com.aquamorph.PreferenceActivity2"/>
+
+    <PreferenceCategory
+        android:summary="General"
+        android:title="General" >
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="nightmode"
+            android:title="Night Mode"
+            android:summary="Enable darker theme (Will Reset Timer)" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:summary="About"
+        android:title="About" >
+        <PreferenceScreen
+            android:key="preferencescreen_about"
+            android:title="Version 1.0.2"
+            android:summary="" />
+    </PreferenceCategory>
+
+
+</PreferenceScreen>
