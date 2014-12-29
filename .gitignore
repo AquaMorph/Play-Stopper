@@ -1,6 +1,22 @@
+<<<<<<< HEAD
 .gradle
 /local.properties
 /.idea/workspace.xml
 /.idea/libraries
 .DS_Store
 /build
+=======
+local.properties
+bin/
+gen/
+libs/
+obj/
+.classpath
+.project
+.settings/
+.idea
+proguard-project.txt
+ic_launcher-web.png
+project.properties
+launcher Icon.psd
+>>>>>>> 85e0ecb9e09dfa781bfed33a582f69307697d77a
