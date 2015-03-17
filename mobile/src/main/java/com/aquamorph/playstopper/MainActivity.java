@@ -1,10 +1,7 @@
 package com.aquamorph.playstopper;
 
-import android.media.AudioManager;
-import android.media.AudioManager.OnAudioFocusChangeListener;
 import android.os.Bundle;
 import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
@@ -12,26 +9,22 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.res.Configuration;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.NumberPicker;
-import android.os.CountDownTimer;
 import android.preference.PreferenceManager;
 
-public class MainActivity extends Activity implements OnClickListener, OnSharedPreferenceChangeListener, OnAudioFocusChangeListener {
+public class MainActivity extends Activity implements OnClickListener, OnSharedPreferenceChangeListener {
 
-    private CountDownTimer countDownTimer;
-    private final long interval = 1 * 1000;
+    private final long interval = 1000;
     private long numberSeconds = 0;
     private long numberMinutes = 0;
     private long numberHours = 0;
-    private boolean hasBeenStarted = false;
-    private boolean isTimerRunning = false;
     private boolean needReset = false;
     static boolean userChoice = true;
     Notifications notifications = new Notifications();
+    Timer clock = new Timer();
     Toolbar toolbar;
 
     @Override
@@ -91,7 +84,7 @@ public class MainActivity extends Activity implements OnClickListener, OnSharedP
             @Override
             public void onClick(View v) {
 
-                if (isTimerRunning == false) {
+                if (clock.isTimerRunning() == false) {
                     if(secondsPicker.getValue() != 0) {
                         numberSeconds = (secondsPicker.getValue()*1000);
                     }
@@ -103,13 +96,10 @@ public class MainActivity extends Activity implements OnClickListener, OnSharedP
                     }
                     long timer = numberSeconds + numberMinutes + numberHours;
 
-                    timer(timer, interval);
+                    clock.timer(timer, interval);
+                    clock.start();
 
-                    countDownTimer.start();
-                    hasBeenStarted = true;
-                    isTimerRunning = true;
-
-                    notifications.timer(MainActivity.this,"Play Stopper","0:0:0");
+                    notifications.timer(MainActivity.this,"Play Stopper",Long.toString(clock.time()));
                 }
             }
         });
@@ -117,9 +107,9 @@ public class MainActivity extends Activity implements OnClickListener, OnSharedP
         reset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (hasBeenStarted == true) {
-                    countDownTimer.cancel();
-                    isTimerRunning = false;
+                if (clock.hasBeenStarted() == true) {
+                    clock.stop();
+                    clock.setIsTimerRunning(false);
                     secondsPicker.setValue(0);
                     minutesPicker.setValue(0);
                     hoursPicker.setValue(0);
@@ -157,17 +147,8 @@ public class MainActivity extends Activity implements OnClickListener, OnSharedP
         super.onStop();
     }
 
-    //Creates Menu
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public void onClick(DialogInterface dialog, int which) {
-    }
+    public void onClick(DialogInterface dialog, int which) {}
 
     public void loadPreferences() {
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -195,56 +176,9 @@ public class MainActivity extends Activity implements OnClickListener, OnSharedP
         startActivity(intent);
     }
 
-    public void timer(Long timer, Long interval) {
-        final NumberPicker secondsPicker = (NumberPicker) findViewById(R.id.numberPickerSeconds);
-        final NumberPicker minutesPicker = (NumberPicker) findViewById(R.id.numberPickerMinutes);
-        final NumberPicker hoursPicker = (NumberPicker) findViewById(R.id.numberPickerHours);
-
-        countDownTimer = new CountDownTimer(timer, interval) {
-
-            public void onTick(long millisUntilFinished) {
-
-                int displaySeconds = (int) (millisUntilFinished / 1000) % 60 ;
-                int displayMinutes = (int) ((millisUntilFinished / (1000*60)) % 60);
-                int displayHours   = (int) ((millisUntilFinished / (1000*60*60)) % 24);
-                secondsPicker.setValue(displaySeconds);
-                minutesPicker.setValue(displayMinutes);
-                hoursPicker.setValue(displayHours);
-                notifications.timer(MainActivity.this,"Play Stopper",Long.toString(displayHours)+
-                        ":"+Long.toString(displayMinutes)+":"+Long.toString(displaySeconds));
-
-            }
-            public void onFinish() {
-                secondsPicker.setValue(0);
-                minutesPicker.setValue(0);
-                hoursPicker.setValue(0);
-                numberSeconds = 0;
-                numberMinutes = 0;
-                numberHours = 0;
-                isTimerRunning = false;
-                userChoice = true;
-                notifications.timer(MainActivity.this,"Play Stopper","0:0:0");
-                pauseAudio();
-            }
-        };
-    }
-
-    public void pauseAudio() {
-        AudioManager mAudioManager = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
-        if(mAudioManager.isMusicActive()) {
-            int result = mAudioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
-            if(result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED){
-            }
-        }
-    }
-
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,String key) {
         loadPreferences();
         needReset = true;
     }
-
-    @Override
-    public void onAudioFocusChange(int arg0) {}
-
 }

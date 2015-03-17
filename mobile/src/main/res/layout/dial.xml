@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			 android:orientation="horizontal"
+			 android:layout_width="match_parent"
+			 android:layout_height="match_parent">
+
+	<TableRow
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent">
+
+		<Button
+			style="?android:attr/borderlessButtonStyle"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:text="@string/button1"
+			android:id="@+id/number1"/>
+
+		<Button
+			style="?android:attr/borderlessButtonStyle"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:text="@string/button2"
+			android:id="@+id/number2"/>
+
+		<Button
+			style="?android:attr/borderlessButtonStyle"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:text="@string/button3"
+			android:id="@+id/number3"/>
+	</TableRow>
+
+	<TableRow
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent">
+
+		<Button
+			style="?android:attr/borderlessButtonStyle"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:text="@string/button4"
+			android:id="@+id/number4"/>
+
+		<Button
+			style="?android:attr/borderlessButtonStyle"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:text="@string/button5"
+			android:id="@+id/number5"/>
+
+		<Button
+			style="?android:attr/borderlessButtonStyle"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:text="@string/button6"
+			android:id="@+id/number6"/>
+	</TableRow>
+
+	<TableRow
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent">
+
+		<Button
+			style="?android:attr/borderlessButtonStyle"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:text="@string/button7"
+			android:id="@+id/number7"/>
+
+		<Button
+			style="?android:attr/borderlessButtonStyle"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:text="@string/button8"
+			android:id="@+id/number8"/>
+
+		<Button
+			style="?android:attr/borderlessButtonStyle"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:text="@string/button9"
+			android:id="@+id/number9"/>
+	</TableRow>
+
+	<TableRow
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent">
+
+		<Button
+			style="?android:attr/borderlessButtonStyle"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:text="@string/button0"
+			android:id="@+id/number0"/>
+
+	</TableRow>
+
+</TableLayout>
