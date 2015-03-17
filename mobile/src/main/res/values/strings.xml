@@ -19,6 +19,6 @@
 	<string name="button7">7</string>
 	<string name="button8">8</string>
 	<string name="button9">9</string>
-
+	<string name="buttonDelete">X</string>
 
 </resources>

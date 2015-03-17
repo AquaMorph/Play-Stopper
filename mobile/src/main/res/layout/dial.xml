@@ -95,12 +95,10 @@
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent">
 
-		<com.aquamorph.playstopper.SquareButton
-			style="?android:attr/borderlessButtonStyle"
+		<RelativeLayout
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
-			android:text=""
 			android:id="@+id/blank1"/>
 
 		<com.aquamorph.playstopper.SquareButton
@@ -111,12 +109,10 @@
 			android:text="@string/button0"
 			android:id="@+id/number0"/>
 
-		<com.aquamorph.playstopper.SquareButton
-			style="?android:attr/borderlessButtonStyle"
+		<RelativeLayout
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
-			android:text=""
 			android:id="@+id/blank2"/>
 
 	</TableRow>
