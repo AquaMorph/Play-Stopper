@@ -14,6 +14,7 @@
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
 			android:text="@string/button1"
+			android:textSize="@dimen/dial_button_text"
 			android:id="@+id/number1"/>
 
 		<com.aquamorph.playstopper.SquareButton
@@ -22,6 +23,7 @@
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
 			android:text="@string/button2"
+			android:textSize="@dimen/dial_button_text"
 			android:id="@+id/number2"/>
 
 		<com.aquamorph.playstopper.SquareButton
@@ -30,6 +32,7 @@
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
 			android:text="@string/button3"
+			android:textSize="@dimen/dial_button_text"
 			android:id="@+id/number3"/>
 	</TableRow>
 
@@ -43,6 +46,7 @@
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
 			android:text="@string/button4"
+			android:textSize="@dimen/dial_button_text"
 			android:id="@+id/number4"/>
 
 		<com.aquamorph.playstopper.SquareButton
@@ -51,6 +55,7 @@
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
 			android:text="@string/button5"
+			android:textSize="@dimen/dial_button_text"
 			android:id="@+id/number5"/>
 
 		<com.aquamorph.playstopper.SquareButton
@@ -59,6 +64,7 @@
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
 			android:text="@string/button6"
+			android:textSize="@dimen/dial_button_text"
 			android:id="@+id/number6"/>
 	</TableRow>
 
@@ -72,6 +78,7 @@
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
 			android:text="@string/button7"
+			android:textSize="@dimen/dial_button_text"
 			android:id="@+id/number7"/>
 
 		<com.aquamorph.playstopper.SquareButton
@@ -80,6 +87,7 @@
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
 			android:text="@string/button8"
+			android:textSize="@dimen/dial_button_text"
 			android:id="@+id/number8"/>
 
 		<com.aquamorph.playstopper.SquareButton
@@ -88,6 +96,7 @@
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
 			android:text="@string/button9"
+			android:textSize="@dimen/dial_button_text"
 			android:id="@+id/number9"/>
 	</TableRow>
 
@@ -107,6 +116,7 @@
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
 			android:text="@string/button0"
+			android:textSize="@dimen/dial_button_text"
 			android:id="@+id/number0"/>
 
 		<RelativeLayout
