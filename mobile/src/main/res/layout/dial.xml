@@ -8,7 +8,7 @@
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent">
 
-		<Button
+		<com.aquamorph.playstopper.SquareButton
 			style="?android:attr/borderlessButtonStyle"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
@@ -16,7 +16,7 @@
 			android:text="@string/button1"
 			android:id="@+id/number1"/>
 
-		<Button
+		<com.aquamorph.playstopper.SquareButton
 			style="?android:attr/borderlessButtonStyle"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
@@ -24,7 +24,7 @@
 			android:text="@string/button2"
 			android:id="@+id/number2"/>
 
-		<Button
+		<com.aquamorph.playstopper.SquareButton
 			style="?android:attr/borderlessButtonStyle"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
@@ -37,7 +37,7 @@
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent">
 
-		<Button
+		<com.aquamorph.playstopper.SquareButton
 			style="?android:attr/borderlessButtonStyle"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
 			android:text="@string/button4"
 			android:id="@+id/number4"/>
 
-		<Button
+		<com.aquamorph.playstopper.SquareButton
 			style="?android:attr/borderlessButtonStyle"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
@@ -53,7 +53,7 @@
 			android:text="@string/button5"
 			android:id="@+id/number5"/>
 
-		<Button
+		<com.aquamorph.playstopper.SquareButton
 			style="?android:attr/borderlessButtonStyle"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
@@ -66,7 +66,7 @@
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent">
 
-		<Button
+		<com.aquamorph.playstopper.SquareButton
 			style="?android:attr/borderlessButtonStyle"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
@@ -74,7 +74,7 @@
 			android:text="@string/button7"
 			android:id="@+id/number7"/>
 
-		<Button
+		<com.aquamorph.playstopper.SquareButton
 			style="?android:attr/borderlessButtonStyle"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
@@ -82,7 +82,7 @@
 			android:text="@string/button8"
 			android:id="@+id/number8"/>
 
-		<Button
+		<com.aquamorph.playstopper.SquareButton
 			style="?android:attr/borderlessButtonStyle"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
@@ -95,13 +95,29 @@
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent">
 
-		<Button
+		<com.aquamorph.playstopper.SquareButton
+			style="?android:attr/borderlessButtonStyle"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:text=""
+			android:id="@+id/blank1"/>
+
+		<com.aquamorph.playstopper.SquareButton
 			style="?android:attr/borderlessButtonStyle"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
 			android:text="@string/button0"
 			android:id="@+id/number0"/>
+
+		<com.aquamorph.playstopper.SquareButton
+			style="?android:attr/borderlessButtonStyle"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:text=""
+			android:id="@+id/blank2"/>
 
 	</TableRow>
 

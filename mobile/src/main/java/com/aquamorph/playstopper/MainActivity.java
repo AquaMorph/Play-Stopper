@@ -1,6 +1,5 @@
 package com.aquamorph.playstopper;
 
-import android.os.Bundle;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
@@ -8,12 +7,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.res.Configuration;
-import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.NumberPicker;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.widget.Toolbar;
 
 public class MainActivity extends Activity implements OnClickListener, OnSharedPreferenceChangeListener {
 
@@ -35,7 +31,7 @@ public class MainActivity extends Activity implements OnClickListener, OnSharedP
         theme(this);
         setContentView(R.layout.activity_main);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        /*toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.app_name);
 
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
@@ -118,7 +114,7 @@ public class MainActivity extends Activity implements OnClickListener, OnSharedP
                     numberHours = 0;
                 }
             }
-        });
+        });*/
     }
 
     @Override
