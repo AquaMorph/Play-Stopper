@@ -11,6 +11,7 @@ public class Timer extends Activity implements AudioManager.OnAudioFocusChangeLi
     public long time = 0;
     public boolean hasBeenStarted = false;
     public boolean isTimerRunning = false;
+	Notifications notifications = new Notifications();
 
     public void timer(Long timer, Long interval) {
 
@@ -21,23 +22,13 @@ public class Timer extends Activity implements AudioManager.OnAudioFocusChangeLi
                 int displayMinutes = (int) ((millisUntilFinished / (1000 * 60)) % 60);
                 int displayHours = (int) ((millisUntilFinished / (1000 * 60 * 60)) % 24);
                 time = millisUntilFinished;
-                /*secondsPicker.setValue(displaySeconds);
-                minutesPicker.setValue(displayMinutes);
-                hoursPicker.setValue(displayHours);
-                notifications.timer(MainActivity.this, "Play Stopper", Long.toString(displayHours) +
-                        ":" + Long.toString(displayMinutes) + ":" + Long.toString(displaySeconds));*/
+                notifications.timer(Timer.this, "Play Stopper", Long.toString(displayHours) +
+                        ":" + Long.toString(displayMinutes) + ":" + Long.toString(displaySeconds));
             }
 
             public void onFinish() {
-                /*secondsPicker.setValue(0);
-                minutesPicker.setValue(0);
-                hoursPicker.setValue(0);
-                numberSeconds = 0;
-                numberMinutes = 0;
-                numberHours = 0;
                 isTimerRunning = false;
-                userChoice = true;
-                notifications.timer(MainActivity.this, "Play Stopper", "0:0:0");*/
+                notifications.timer(Timer.this, "Play Stopper", "00:00:00");
                 //pauseAudio();
             }
         };

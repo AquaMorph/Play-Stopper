@@ -23,7 +23,6 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 	private String timeText = "";
 	private boolean needReset = false;
 	static boolean userChoice = true;
-	Notifications notifications = new Notifications();
 	Timer clock = new Timer();
 
 	//Menu Options
@@ -60,9 +59,14 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		dialButtons[8] = (Button) dial.findViewById(R.id.number8);
 		dialButtons[9] = (Button) dial.findViewById(R.id.number9);
 
+		//Display button and text
 		final View display = findViewById(R.id.display);
 		final TextView timeDisplayText = (TextView) display.findViewById(R.id.timer);
 		Button delete = (Button) display.findViewById(R.id.delete);
+
+		//Play and pause button
+		final View button = findViewById(R.id.buttons);
+		Button start = (Button) button.findViewById(R.id.start);
 
 		//Scrolls through dial button onClickListners
 		for (int i = 0; i < dialButtons.length; i++) {
@@ -84,6 +88,14 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 				subtractValueToString();
 				timeDisplayText.setText(displayText());
 				Log.i(TAG, "Button Delete Clicked");
+			}
+		});
+
+		//onClickListner for the start button
+		start.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Log.i(TAG, "Button Start Clicked");
 			}
 		});
 	}
