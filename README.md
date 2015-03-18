@@ -1,0 +1,2 @@
+# Play-Stopper [![Build Status](https://travis-ci.org/AquaMorph/Play-Stopper.svg?branch=develop)](https://travis-ci.org/AquaMorph/Play-Stopper)
+A simple timer that will stop any audio that is playing when the time is up.
