@@ -46,8 +46,6 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		theme(this);
 		setContentView(R.layout.activity_main);
 
-
-
 		//Dial buttons
 		final View dial = findViewById(R.id.dial);
 		Button dialButtons[] = new Button[10];
@@ -168,6 +166,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		if (timeText.length() < 6) {
 			timeText += value;
 		}
+		timeText = trimLeadingZeros(timeText);
 		Log.i(TAG, "timeText: "+timeText);
 		Log.i(TAG, "display: "+displayText());
 	}
@@ -187,5 +186,25 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 			text = "0"+text;
 		}
 		return text.substring(0, 2)+":"+text.substring(2, 4)+":"+text.substring(4, 6);
+	}
+
+	//clears leading zeros from a string
+	private static String trimLeadingZeros(String source) {
+		int length = source.length();
+		int i;
+
+		if (length < 2)
+			return source;
+
+		for (i = 0; i < length-1; i++) {
+			char c = source.charAt(i);
+			if (c != '0')
+				break;
+		}
+
+		if (i == 0)
+			return source;
+
+		return source.substring(i);
 	}
 }
