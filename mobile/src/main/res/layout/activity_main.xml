@@ -6,12 +6,14 @@
 	android:weightSum="1">
 
 	<include
+		android:id="@+id/display"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_gravity="center_horizontal"
 		layout="@layout/display"/>
 
 	<include
+		android:id="@+id/dial"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:layout_marginLeft="40dp"
@@ -19,6 +21,7 @@
 		layout="@layout/dial"/>
 
 	<include
+		android:id="@+id/buttons"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		layout="@layout/buttons"/>
