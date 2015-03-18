@@ -46,10 +46,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		theme(this);
 		setContentView(R.layout.activity_main);
 
-		final View display = findViewById(R.id.display);
-		TextView timeText = (TextView) display.findViewById(R.id.timer);
-		Button delete = (Button) display.findViewById(R.id.delete);
-		timeText.setText("00:04:20");
+
 
 		//Dial buttons
 		final View dial = findViewById(R.id.dial);
@@ -65,6 +62,9 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		dialButtons[8] = (Button) dial.findViewById(R.id.number8);
 		dialButtons[9] = (Button) dial.findViewById(R.id.number9);
 
+		final View display = findViewById(R.id.display);
+		final TextView timeDisplayText = (TextView) display.findViewById(R.id.timer);
+		Button delete = (Button) display.findViewById(R.id.delete);
 
 		//Scrolls through dial button onClickListners
 		for (int i = 0; i < dialButtons.length; i++) {
@@ -74,6 +74,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 				public void onClick(View v) {
 					addValueToString(number);
 					Log.i(TAG, "Button "+number+" Clicked");
+					timeDisplayText.setText(displayText());
 				}
 			});
 		}
@@ -83,6 +84,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 			@Override
 			public void onClick(View v) {
 				subtractValueToString();
+				timeDisplayText.setText(displayText());
 				Log.i(TAG, "Button Delete Clicked");
 			}
 		});
