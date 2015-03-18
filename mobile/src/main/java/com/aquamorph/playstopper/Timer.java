@@ -11,9 +11,6 @@ public class Timer extends Activity implements AudioManager.OnAudioFocusChangeLi
     public long time = 0;
     public boolean hasBeenStarted = false;
     public boolean isTimerRunning = false;
-    /*final NumberPicker secondsPicker = (NumberPicker) findViewById(R.id.numberPickerSeconds);
-    final NumberPicker minutesPicker = (NumberPicker) findViewById(R.id.numberPickerMinutes);
-    final NumberPicker hoursPicker = (NumberPicker) findViewById(R.id.numberPickerHours);*/
 
     public void timer(Long timer, Long interval) {
 

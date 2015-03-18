@@ -181,11 +181,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 
 	//Convert timeText to display
 	public String displayText() {
-		String text = timeText;
-		for (int i = 6-timeText.length(); i > 0; i--) {
-			text = "0"+text;
-		}
-		return text.substring(0, 2)+":"+text.substring(2, 4)+":"+text.substring(4, 6);
+		return sixCharacterTime().substring(0, 2)+":"+sixCharacterTime().substring(2, 4)+":"+sixCharacterTime().substring(4, 6);
 	}
 
 	//clears leading zeros from a string
@@ -206,5 +202,28 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 			return source;
 
 		return source.substring(i);
+	}
+
+	public String sixCharacterTime() {
+		String text = timeText;
+		for (int i = 6-timeText.length(); i > 0; i--) {
+			text = "0"+text;
+		}
+		return text;
+	}
+
+	//Returns hours of the timer
+	public int getHours() {
+		return Integer.parseInt(sixCharacterTime().substring(0, 2));
+	}
+
+	//Returns minutes of the timer
+	public int getMinutes() {
+		return Integer.parseInt(sixCharacterTime().substring(2, 4));
+	}
+
+	//Returns seconds of the timer
+	public int getSeconds() {
+		return Integer.parseInt(sixCharacterTime().substring(4, 6));
 	}
 }
