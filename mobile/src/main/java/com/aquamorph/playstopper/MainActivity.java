@@ -137,9 +137,9 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 
 	public static void theme(Activity activity) {
 		if (userChoice == true)
-			activity.setTheme(R.style.HoloDark);
+			activity.setTheme(R.style.Dark);
 		else if (userChoice == false)
-			activity.setTheme(R.style.HoloLight);
+			activity.setTheme(R.style.Light);
 	}
 
 	public void checkForReset() {
@@ -173,5 +173,10 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 			timeText = timeText.substring(0, timeText.length()-1);
 		}
 		Log.i(TAG, "timeText: " + timeText);
+	}
+
+	//Convert timeText to display
+	public String displayText() {
+		return timeText;
 	}
 }

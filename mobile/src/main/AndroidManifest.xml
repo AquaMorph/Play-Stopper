@@ -6,7 +6,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/HoloLight" >
+        android:theme="@style/Light" >
         <activity
             android:name="com.aquamorph.playstopper.MainActivity"
             android:label="@string/app_name"
