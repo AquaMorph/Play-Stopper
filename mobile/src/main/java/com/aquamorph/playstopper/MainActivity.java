@@ -163,8 +163,11 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 
 	//Adds and interger value at the end of the timeText string
 	public void addValueToString(int value) {
-		timeText += value;
-		Log.i(TAG, "timeText: " + timeText);
+		if (timeText.length() < 6) {
+			timeText += value;
+		}
+		Log.i(TAG, "timeText: "+timeText);
+		Log.i(TAG, "display: "+displayText());
 	}
 
 	//Deleted the last character in the timeText string
@@ -172,11 +175,15 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		if (!timeText.equals("")) {
 			timeText = timeText.substring(0, timeText.length()-1);
 		}
-		Log.i(TAG, "timeText: " + timeText);
+		Log.i(TAG, "timeText: "+timeText);
 	}
 
 	//Convert timeText to display
 	public String displayText() {
-		return timeText;
+		String text = timeText;
+		for (int i = 6-timeText.length(); i > 0; i--) {
+			text = "0"+text;
+		}
+		return text.substring(0, 2)+":"+text.substring(2, 4)+":"+text.substring(4, 6);
 	}
 }
