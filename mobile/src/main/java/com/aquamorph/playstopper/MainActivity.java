@@ -14,16 +14,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class MainActivity extends ActionBarActivity implements OnClickListener, OnSharedPreferenceChangeListener {
 
 	private final String TAG = "MainActivity";
-	private final long interval = 1000;
-	private long numberSeconds = 0;
-	private long numberMinutes = 0;
-	private long numberHours = 0;
 	private String timeText = "";
 	private boolean needReset = false;
 	static boolean userChoice = true;
@@ -50,8 +46,13 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		theme(this);
 		setContentView(R.layout.activity_main);
 
+		final View display = findViewById(R.id.display);
+		TextView timeText = (TextView) display.findViewById(R.id.timer);
+		Button delete = (Button) display.findViewById(R.id.delete);
+		timeText.setText("00:04:20");
+
+		//Dial buttons
 		final View dial = findViewById(R.id.dial);
-		final ViewGroup Buttons = (ViewGroup) dial.findViewById(R.id.buttons);
 		Button dialButtons[] = new Button[10];
 		dialButtons[0] = (Button) dial.findViewById(R.id.number0);
 		dialButtons[1] = (Button) dial.findViewById(R.id.number1);
@@ -64,6 +65,8 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		dialButtons[8] = (Button) dial.findViewById(R.id.number8);
 		dialButtons[9] = (Button) dial.findViewById(R.id.number9);
 
+
+		//Scrolls through dial button onClickListners
 		for (int i = 0; i < dialButtons.length; i++) {
 			final int number = i;
 			dialButtons[i].setOnClickListener(new View.OnClickListener() {
@@ -74,57 +77,16 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 				}
 			});
 		}
+
+		//onClickListner for the display delete button
+		delete.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				subtractValueToString();
+				Log.i(TAG, "Button Delete Clicked");
+			}
+		});
 	}
-
-
-	//        final NumberPicker hoursPicker = (NumberPicker) findViewById(R.id.numberPickerHours);
-	//        hoursPicker.setMaxValue(24);
-	//        hoursPicker.setMinValue(0);
-
-	//        Button start = (Button) findViewById(R.id.button2);
-	//        Button reset = (Button) findViewById(R.id.button1);
-
-	//        start.setOnClickListener(new View.OnClickListener() {
-	//
-	//            @Override
-	//            public void onClick(View v) {
-	//
-	//                if (clock.isTimerRunning() == false) {
-	//                    if(secondsPicker.getValue() != 0) {
-	//                        numberSeconds = (secondsPicker.getValue()*1000);
-	//                    }
-	//                    if(minutesPicker.getValue() != 0) {
-	//                        numberMinutes = (minutesPicker.getValue()*1000*60);
-	//                    }
-	//                    if(hoursPicker.getValue() != 0) {
-	//                        numberHours = numberHours + (hoursPicker.getValue()*1000*60*60);
-	//                    }
-	//                    long timer = numberSeconds + numberMinutes + numberHours;
-	//
-	//                    clock.timer(timer, interval);
-	//                    clock.start();
-	//
-	//                    notifications.timer(MainActivity.this,"Play Stopper",Long.toString(clock.time()));
-	//                }
-	//            }
-	//        });
-
-	//        reset.setOnClickListener(new View.OnClickListener() {
-	//            @Override
-	//            public void onClick(View v) {
-	//                if (clock.hasBeenStarted() == true) {
-	//                    clock.stop();
-	//                    clock.setIsTimerRunning(false);
-	//                    secondsPicker.setValue(0);
-	//                    minutesPicker.setValue(0);
-	//                    hoursPicker.setValue(0);
-	//                    numberSeconds = 0;
-	//                    numberMinutes = 0;
-	//                    numberHours = 0;
-	//                }
-	//            }
-	//        });
-
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -199,7 +161,17 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		needReset = true;
 	}
 
+	//Adds and interger value at the end of the timeText string
 	public void addValueToString(int value) {
 		timeText += value;
+		Log.i(TAG, "timeText: " + timeText);
+	}
+
+	//Deleted the last character in the timeText string
+	public void subtractValueToString() {
+		if (!timeText.equals("")) {
+			timeText = timeText.substring(0, timeText.length()-1);
+		}
+		Log.i(TAG, "timeText: " + timeText);
 	}
 }
