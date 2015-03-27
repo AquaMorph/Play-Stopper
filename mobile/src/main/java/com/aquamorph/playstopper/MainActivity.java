@@ -20,6 +20,7 @@ import android.widget.TextView;
 public class MainActivity extends ActionBarActivity implements OnClickListener, OnSharedPreferenceChangeListener {
 
 	private final String TAG = "MainActivity";
+	private long interval = 1000;
 	private String timeText = "";
 	private boolean needReset = false;
 	static boolean userChoice = true;
@@ -95,6 +96,8 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		start.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				clock.timer(getMilliseconds(), interval);
+				clock.start();
 				Log.i(TAG, "Button Start Clicked");
 			}
 		});
@@ -237,5 +240,10 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 	//Returns seconds of the timer
 	public int getSeconds() {
 		return Integer.parseInt(sixCharacterTime().substring(4, 6));
+	}
+
+	//Returns milliseconds of the timer
+	public long getMilliseconds() {
+		return getHours()*3600000+getMinutes()*60000+getSeconds()*1000;
 	}
 }
