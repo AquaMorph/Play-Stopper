@@ -101,6 +101,33 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 				Log.i(TAG, "Button Start Clicked");
 			}
 		});
+
+		Thread updateDisplayText = new Thread() {
+
+			@Override
+			public void run() {
+				int test = 0;
+				try {
+					while (!isInterrupted()) {
+						Thread.sleep(1000);
+						runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								if (clock.isTimerRunning) {
+									timeDisplayText.setText(String.format("%02d",clock.displayHours)+":"+String.format("%02d",clock.displayMinutes)+":"+String.format("%02d",clock.displaySeconds));
+								}
+								if(clock.time<900) {
+									timeDisplayText.setText(displayText());
+								}
+							}
+						});
+					}
+				} catch (InterruptedException e) {
+				}
+			}
+		};
+
+		updateDisplayText.start();
 	}
 
 	@Override
