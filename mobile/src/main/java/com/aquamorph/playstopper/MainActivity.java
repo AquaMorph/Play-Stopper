@@ -22,7 +22,7 @@ import android.widget.TextView;
 public class MainActivity extends ActionBarActivity implements OnClickListener, OnSharedPreferenceChangeListener, AudioManager.OnAudioFocusChangeListener {
 
 	private final String TAG = "MainActivity";
-	private long interval = 1000;
+	private final long INTERVAL = 1000;
 	private String timeText = "";
 	private boolean needReset = false;
 	static boolean userChoice = true;
@@ -304,11 +304,13 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		final View button = findViewById(R.id.buttons);
 		final Button start = (Button) button.findViewById(R.id.start);
 		start.setText("Start");
+		timeText = String.format("%02d", clock.displayHours)+String.format("%02d", clock.displayMinutes)+String.format("%02d", clock.displaySeconds);
+		clock.stop();
 	}
 
 	//Handles starting of the timer
 	public void timerStart() {
-		clock.timer(getMilliseconds(), interval);
+		clock.timer(getMilliseconds(), INTERVAL);
 		clock.start();
 		final View button = findViewById(R.id.buttons);
 		final Button start = (Button) button.findViewById(R.id.start);

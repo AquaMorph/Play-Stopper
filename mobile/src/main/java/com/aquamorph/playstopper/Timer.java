@@ -8,7 +8,6 @@ public class Timer {
 	private final String TAG = "Timer";
 	public CountDownTimer countDownTimer;
 	public long time = 0;
-	public boolean hasBeenStarted = false;
 	public boolean isTimerRunning = false;
 	public boolean hasTimerFinished = false;
 	public int displaySeconds, displayMinutes, displayHours;
@@ -34,9 +33,15 @@ public class Timer {
 	}
 
 	public void start() {
-		hasBeenStarted = true;
+		hasTimerFinished = true;
 		isTimerRunning = true;
 		countDownTimer.start();
+	}
+
+	public void stop() {
+		hasTimerFinished = false;
+		isTimerRunning = false;
+		countDownTimer.cancel();
 	}
 
 	//Allows for other classes to reset the state of the timer
