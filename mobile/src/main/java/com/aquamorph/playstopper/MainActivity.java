@@ -25,6 +25,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 	private boolean needReset = false;
 	static boolean userChoice = true;
 	Timer clock = new Timer();
+	Notifications notifications = new Notifications();
 
 	//Menu Options
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -114,10 +115,13 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 							@Override
 							public void run() {
 								if (clock.isTimerRunning) {
-									timeDisplayText.setText(String.format("%02d",clock.displayHours)+":"+String.format("%02d",clock.displayMinutes)+":"+String.format("%02d",clock.displaySeconds));
+									timeDisplayText.setText(getTimerText());
+									notifications.timer(MainActivity.this, "Play Stopper", getTimerText());
 								}
-								if(clock.time<900) {
+								if (clock.time < 900) {
 									timeDisplayText.setText(displayText());
+									if (clock.isTimerRunning)
+										notifications.timer(MainActivity.this, "Play Stopper", "00:00:00");
 								}
 							}
 						});
@@ -272,5 +276,10 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 	//Returns milliseconds of the timer
 	public long getMilliseconds() {
 		return getHours()*3600000+getMinutes()*60000+getSeconds()*1000;
+	}
+
+	//Returns the time of the clock in the standard format
+	public String getTimerText() {
+		return String.format("%02d", clock.displayHours)+":"+String.format("%02d", clock.displayMinutes)+":"+String.format("%02d", clock.displaySeconds);
 	}
 }

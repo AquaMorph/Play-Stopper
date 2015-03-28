@@ -11,7 +11,6 @@ public class Timer {
 	public boolean hasBeenStarted = false;
 	public boolean isTimerRunning = false;
 	public int displaySeconds, displayMinutes, displayHours;
-	//Notifications notifications = new Notifications();
 
 	public void timer(Long timer, Long interval) {
 
@@ -23,13 +22,11 @@ public class Timer {
 				displayHours = (int) ((millisUntilFinished/(1000*60*60))%24);
 				time = millisUntilFinished;
 				Log.i(TAG, "Time: "+millisUntilFinished);
-				//notifications.timer(Timer.this, "Play Stopper", Long.toString(displayHours)+":"+Long.toString(displayMinutes)+":"+Long.toString(displaySeconds));
 			}
 
 			public void onFinish() {
 				isTimerRunning = false;
 				time = 0;
-				//notifications.timer(Timer.this, "Play Stopper", "00:00:00");
 				//pauseAudio();
 			}
 		};
