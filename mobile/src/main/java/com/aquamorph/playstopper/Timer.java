@@ -27,7 +27,6 @@ public class Timer {
 			public void onFinish() {
 				isTimerRunning = false;
 				time = 0;
-				//pauseAudio();
 			}
 		};
 	}
@@ -36,25 +35,5 @@ public class Timer {
 		hasBeenStarted = true;
 		isTimerRunning = true;
 		countDownTimer.start();
-	}
-
-	public void stop() {
-		countDownTimer.cancel();
-	}
-
-	public long time() {
-		return time;
-	}
-
-	public boolean isTimerRunning() {
-		return isTimerRunning;
-	}
-
-	public boolean hasBeenStarted() {
-		return hasBeenStarted;
-	}
-
-	public void setIsTimerRunning(boolean value) {
-		isTimerRunning = value;
 	}
 }
