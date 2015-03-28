@@ -109,7 +109,6 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 
 			@Override
 			public void run() {
-				int test = 0;
 				try {
 					while (!isInterrupted()) {
 						Thread.sleep(1000);
@@ -132,6 +131,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 						});
 					}
 				} catch (InterruptedException e) {
+					Log.e(TAG, "updateDisplayTextError" + e);
 				}
 			}
 		};
@@ -180,21 +180,21 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		boolean test = settings.getBoolean("nightmode", false);
 		settings.registerOnSharedPreferenceChangeListener(MainActivity.this);
-		if (test == true)
+		if (test)
 			userChoice = true;
-		else if (test == false)
+		else
 			userChoice = false;
 	}
 
 	public static void theme(Activity activity) {
-		if (userChoice == true)
+		if (userChoice)
 			activity.setTheme(R.style.Dark);
-		else if (userChoice == false)
+		else
 			activity.setTheme(R.style.Light);
 	}
 
 	public void checkForReset() {
-		while (needReset == true) {
+		while (needReset) {
 			needReset = false;
 			finish();
 			startActivity(getIntent());
@@ -291,9 +291,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 	public void pauseAudio() {
 		AudioManager mAudioManager = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
 		if (mAudioManager.isMusicActive()) {
-			int result = mAudioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
-			if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
-			}
+			mAudioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
 		}
 	}
 
