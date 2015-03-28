@@ -25,6 +25,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 	private String timeText = "";
 	private boolean needReset = false;
 	static boolean userChoice = true;
+	public long milliseconds = 0;
 	Timer clock = new Timer();
 	Notifications notifications = new Notifications();
 
@@ -113,7 +114,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 			public void run() {
 				try {
 					while (!isInterrupted()) {
-						Thread.sleep(1000);
+						Thread.sleep(100);
 						runOnUiThread(new Runnable() {
 							@Override
 							public void run() {
@@ -299,8 +300,12 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 	public void timerPause() {
 		final View button = findViewById(R.id.buttons);
 		final Button start = (Button) button.findViewById(R.id.start);
+		//Display button and text
+		final View display = findViewById(R.id.display);
+		final TextView timeDisplayText = (TextView) display.findViewById(R.id.timer);
 		start.setText("Start");
 		timeText = String.format("%02d", clock.displayHours)+String.format("%02d", clock.displayMinutes)+String.format("%02d", clock.displaySeconds);
+		timeDisplayText.setText(getTimerText());
 		clock.stop();
 	}
 
