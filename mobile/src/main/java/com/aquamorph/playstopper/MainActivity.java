@@ -70,7 +70,8 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 
 		//Play and pause button
 		final View button = findViewById(R.id.buttons);
-		Button start = (Button) button.findViewById(R.id.start);
+		final Button start = (Button) button.findViewById(R.id.start);
+		start.setText("Start");
 
 		//Scrolls through dial button onClickListners
 		for (int i = 0; i < dialButtons.length; i++) {
@@ -99,9 +100,11 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		start.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				clock.timer(getMilliseconds(), interval);
-				clock.start();
 				Log.i(TAG, "Button Start Clicked");
+				if (clock.hasTimerFinished)
+					timerPause();
+				else
+					timerStart();
 			}
 		});
 
@@ -125,13 +128,14 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 										notifications.timer(MainActivity.this, "Play Stopper", "00:00:00");
 										pauseAudio();
 										clock.resetTimerFinish();
+										start.setText("Start");
 									}
 								}
 							}
 						});
 					}
 				} catch (InterruptedException e) {
-					Log.e(TAG, "updateDisplayTextError" + e);
+					Log.e(TAG, "updateDisplayTextError"+e);
 				}
 			}
 		};
@@ -293,6 +297,22 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		if (mAudioManager.isMusicActive()) {
 			mAudioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
 		}
+	}
+
+	//Handles pausing of the timer
+	public void timerPause() {
+		final View button = findViewById(R.id.buttons);
+		final Button start = (Button) button.findViewById(R.id.start);
+		start.setText("Start");
+	}
+
+	//Handles starting of the timer
+	public void timerStart() {
+		clock.timer(getMilliseconds(), interval);
+		clock.start();
+		final View button = findViewById(R.id.buttons);
+		final Button start = (Button) button.findViewById(R.id.start);
+		start.setText("Pause");
 	}
 
 	@Override
