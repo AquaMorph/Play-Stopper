@@ -22,7 +22,6 @@ import android.widget.TextView;
 public class MainActivity extends ActionBarActivity implements OnClickListener, OnSharedPreferenceChangeListener, AudioManager.OnAudioFocusChangeListener {
 
 	private final String TAG = "MainActivity";
-	private final long INTERVAL = 1000;
 	private String timeText = "";
 	private boolean needReset = false;
 	static boolean userChoice = true;
@@ -182,12 +181,9 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 
 	public void loadPreferences() {
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-		boolean test = settings.getBoolean("nightmode", false);
+		boolean night = settings.getBoolean("nightmode", false);
 		settings.registerOnSharedPreferenceChangeListener(MainActivity.this);
-		if (test)
-			userChoice = true;
-		else
-			userChoice = false;
+		userChoice = night;
 	}
 
 	public static void theme(Activity activity) {
@@ -310,7 +306,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 
 	//Handles starting of the timer
 	public void timerStart() {
-		clock.timer(getMilliseconds(), INTERVAL);
+		clock.timer(getMilliseconds(), (long) 1000);
 		clock.start();
 		final View button = findViewById(R.id.buttons);
 		final Button start = (Button) button.findViewById(R.id.start);

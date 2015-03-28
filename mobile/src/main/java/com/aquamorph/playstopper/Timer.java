@@ -32,12 +32,14 @@ public class Timer {
 		};
 	}
 
+	//Starts the timer
 	public void start() {
 		hasTimerFinished = true;
 		isTimerRunning = true;
 		countDownTimer.start();
 	}
 
+	//Stops the timer
 	public void stop() {
 		hasTimerFinished = false;
 		isTimerRunning = false;
