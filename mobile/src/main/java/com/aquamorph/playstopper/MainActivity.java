@@ -1,12 +1,14 @@
 package com.aquamorph.playstopper;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.res.Configuration;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
@@ -17,7 +19,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class MainActivity extends ActionBarActivity implements OnClickListener, OnSharedPreferenceChangeListener {
+public class MainActivity extends ActionBarActivity implements OnClickListener, OnSharedPreferenceChangeListener, AudioManager.OnAudioFocusChangeListener {
 
 	private final String TAG = "MainActivity";
 	private long interval = 1000;
@@ -120,8 +122,11 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 								}
 								if (clock.time < 900) {
 									timeDisplayText.setText(displayText());
-									if (clock.isTimerRunning)
+									if (clock.hasTimerFinished) {
 										notifications.timer(MainActivity.this, "Play Stopper", "00:00:00");
+										pauseAudio();
+										clock.resetTimerFinish();
+									}
 								}
 							}
 						});
@@ -282,4 +287,18 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 	public String getTimerText() {
 		return String.format("%02d", clock.displayHours)+":"+String.format("%02d", clock.displayMinutes)+":"+String.format("%02d", clock.displaySeconds);
 	}
+
+	public void pauseAudio() {
+		AudioManager mAudioManager = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
+		if (mAudioManager.isMusicActive()) {
+			int result = mAudioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+			if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+			}
+		}
+	}
+
+	@Override
+	public void onAudioFocusChange(int arg0) {
+	}
+
 }

@@ -10,6 +10,7 @@ public class Timer {
 	public long time = 0;
 	public boolean hasBeenStarted = false;
 	public boolean isTimerRunning = false;
+	public boolean hasTimerFinished = false;
 	public int displaySeconds, displayMinutes, displayHours;
 
 	public void timer(Long timer, Long interval) {
@@ -25,6 +26,7 @@ public class Timer {
 			}
 
 			public void onFinish() {
+				hasTimerFinished = true;
 				isTimerRunning = false;
 				time = 0;
 			}
@@ -35,5 +37,10 @@ public class Timer {
 		hasBeenStarted = true;
 		isTimerRunning = true;
 		countDownTimer.start();
+	}
+
+	//Allows for other classes to reset the state of the timer
+	public void resetTimerFinish() {
+		hasTimerFinished = false;
 	}
 }
