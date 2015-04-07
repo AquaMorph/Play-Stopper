@@ -27,7 +27,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 	static boolean userChoice = true;
 	public long milliseconds = 0;
 	Timer clock = new Timer();
-	Notifications notifications = new Notifications();
+//	Notifications notifications = new Notifications();
 
 	//Menu Options
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -120,12 +120,12 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 							public void run() {
 								if (clock.isTimerRunning) {
 									timeDisplayText.setText(getTimerText());
-									notifications.timer(MainActivity.this, "Play Stopper", getTimerText());
+//									notifications.timer(MainActivity.this, "Play Stopper", getTimerText());
 								}
 								if (clock.time < 900) {
 									timeDisplayText.setText(displayText());
 									if (clock.hasTimerFinished) {
-										notifications.timer(MainActivity.this, "Play Stopper", "00:00:00");
+//										notifications.timer(MainActivity.this, "Play Stopper", "00:00:00");
 										pauseAudio();
 										clock.resetTimerFinish();
 										start.setText("Start");
