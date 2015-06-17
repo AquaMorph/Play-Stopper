@@ -8,10 +8,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,15 +20,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class MainActivity extends ActionBarActivity implements OnClickListener, OnSharedPreferenceChangeListener, AudioManager.OnAudioFocusChangeListener {
+public class MainActivity extends AppCompatActivity implements OnClickListener, OnSharedPreferenceChangeListener, AudioManager.OnAudioFocusChangeListener {
 
 	private final String TAG = "MainActivity";
 	private String timeText = "";
 	private boolean needReset = false;
 	static boolean userChoice = true;
-	public long milliseconds = 0;
 	Timer clock = new Timer();
-//	Notifications notifications = new Notifications();
 
 	//Menu Options
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -120,12 +119,10 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 							public void run() {
 								if (clock.isTimerRunning) {
 									timeDisplayText.setText(getTimerText());
-//									notifications.timer(MainActivity.this, "Play Stopper", getTimerText());
 								}
 								if (clock.time < 900) {
 									timeDisplayText.setText(displayText());
 									if (clock.hasTimerFinished) {
-//										notifications.timer(MainActivity.this, "Play Stopper", "00:00:00");
 										pauseAudio();
 										clock.resetTimerFinish();
 										start.setText("Start");
@@ -188,10 +185,12 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 	}
 
 	public static void theme(Activity activity) {
-		if (userChoice)
+		if (userChoice) {
 			activity.setTheme(R.style.Dark);
-		else
+		}
+		else {
 			activity.setTheme(R.style.Light);
+		}
 	}
 
 	public void checkForReset() {
