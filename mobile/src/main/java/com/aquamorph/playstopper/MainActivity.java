@@ -8,8 +8,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.media.AudioManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -187,6 +187,11 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 	public static void theme(Activity activity) {
 		if (userChoice) {
 			activity.setTheme(R.style.Dark);
+			if (Build.VERSION.SDK_INT >= 21) {
+				activity.getWindow().setNavigationBarColor(activity.getResources().getColor(R.color.primary_dark_material_dark));
+				activity.getWindow().setStatusBarColor(activity.getResources().getColor(R.color.primary_dark_material_dark));
+				activity.getWindow().getDecorView().setBackgroundColor(activity.getResources().getColor(R.color.primary_dark_material_dark));
+			}
 		}
 		else {
 			activity.setTheme(R.style.Light);
