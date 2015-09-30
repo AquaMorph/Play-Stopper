@@ -2,17 +2,17 @@
 
     <style name="Light" parent="Theme.AppCompat.Light">
         <item name="colorPrimary">@color/primary</item>
-        <item name="colorPrimaryDark">@color/primary_dark</item>
-        <item name="colorAccent">@color/text_light</item>
-        <item name="android:textColor">@color/text_light</item>
-        <item name="android:textColorPrimary">@color/primary_light</item>
-        <item name="android:textColorSecondary">@color/text_light</item>
-        <item name="android:colorBackground">@color/primary_light</item>
+        <item name="colorPrimaryDark">@color/dark_blue</item>
+        <item name="colorAccent">@color/light_blue</item>
+        <item name="android:textColor">@color/light_blue</item>
+        <item name="android:textColorPrimary">@color/white_blue</item>
+        <item name="android:textColorSecondary">@color/light_blue</item>
+        <item name="android:colorBackground">@color/white_blue</item>
         <item name="colorButtonNormal">@color/primary</item>
     </style>
 
     <style name="Dark" parent="Theme.AppCompat">
-        <item name="android:colorBackground">@color/text_dark</item>
+        <item name="android:colorBackground">@color/black_blue</item>
     </style>
 
 </resources>
