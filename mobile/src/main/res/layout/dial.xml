@@ -6,30 +6,31 @@
 
 	<TableRow
 		android:layout_width="fill_parent"
-		android:layout_height="fill_parent">
+		android:layout_height="fill_parent"
+		android:layout_weight="1">
 
-		<com.aquamorph.playstopper.SquareButton
+		<Button
 			style="?android:attr/borderlessButtonStyle"
 			android:layout_width="0dp"
-			android:layout_height="wrap_content"
+			android:layout_height="fill_parent"
 			android:layout_weight="1"
 			android:text="@string/button1"
 			android:textSize="@dimen/dial_button_text"
 			android:id="@+id/number1"/>
 
-		<com.aquamorph.playstopper.SquareButton
+		<Button
 			style="?android:attr/borderlessButtonStyle"
 			android:layout_width="0dp"
-			android:layout_height="wrap_content"
+			android:layout_height="fill_parent"
 			android:layout_weight="1"
 			android:text="@string/button2"
 			android:textSize="@dimen/dial_button_text"
 			android:id="@+id/number2"/>
 
-		<com.aquamorph.playstopper.SquareButton
+		<Button
 			style="?android:attr/borderlessButtonStyle"
 			android:layout_width="0dp"
-			android:layout_height="wrap_content"
+			android:layout_height="fill_parent"
 			android:layout_weight="1"
 			android:text="@string/button3"
 			android:textSize="@dimen/dial_button_text"
@@ -38,30 +39,31 @@
 
 	<TableRow
 		android:layout_width="fill_parent"
-		android:layout_height="fill_parent">
+		android:layout_height="fill_parent"
+		android:layout_weight="1">
 
-		<com.aquamorph.playstopper.SquareButton
+		<Button
 			style="?android:attr/borderlessButtonStyle"
 			android:layout_width="0dp"
-			android:layout_height="wrap_content"
+			android:layout_height="fill_parent"
 			android:layout_weight="1"
 			android:text="@string/button4"
 			android:textSize="@dimen/dial_button_text"
 			android:id="@+id/number4"/>
 
-		<com.aquamorph.playstopper.SquareButton
+		<Button
 			style="?android:attr/borderlessButtonStyle"
 			android:layout_width="0dp"
-			android:layout_height="wrap_content"
+			android:layout_height="fill_parent"
 			android:layout_weight="1"
 			android:text="@string/button5"
 			android:textSize="@dimen/dial_button_text"
 			android:id="@+id/number5"/>
 
-		<com.aquamorph.playstopper.SquareButton
+		<Button
 			style="?android:attr/borderlessButtonStyle"
 			android:layout_width="0dp"
-			android:layout_height="wrap_content"
+			android:layout_height="fill_parent"
 			android:layout_weight="1"
 			android:text="@string/button6"
 			android:textSize="@dimen/dial_button_text"
@@ -70,30 +72,31 @@
 
 	<TableRow
 		android:layout_width="fill_parent"
-		android:layout_height="fill_parent">
+		android:layout_height="fill_parent"
+		android:layout_weight="1">
 
-		<com.aquamorph.playstopper.SquareButton
+		<Button
 			style="?android:attr/borderlessButtonStyle"
 			android:layout_width="0dp"
-			android:layout_height="wrap_content"
+			android:layout_height="fill_parent"
 			android:layout_weight="1"
 			android:text="@string/button7"
 			android:textSize="@dimen/dial_button_text"
 			android:id="@+id/number7"/>
 
-		<com.aquamorph.playstopper.SquareButton
+		<Button
 			style="?android:attr/borderlessButtonStyle"
 			android:layout_width="0dp"
-			android:layout_height="wrap_content"
+			android:layout_height="fill_parent"
 			android:layout_weight="1"
 			android:text="@string/button8"
 			android:textSize="@dimen/dial_button_text"
 			android:id="@+id/number8"/>
 
-		<com.aquamorph.playstopper.SquareButton
+		<Button
 			style="?android:attr/borderlessButtonStyle"
 			android:layout_width="0dp"
-			android:layout_height="wrap_content"
+			android:layout_height="fill_parent"
 			android:layout_weight="1"
 			android:text="@string/button9"
 			android:textSize="@dimen/dial_button_text"
@@ -102,18 +105,19 @@
 
 	<TableRow
 		android:layout_width="fill_parent"
-		android:layout_height="fill_parent">
+		android:layout_height="fill_parent"
+		android:layout_weight="1">
 
 		<RelativeLayout
 			android:layout_width="0dp"
-			android:layout_height="wrap_content"
+			android:layout_height="fill_parent"
 			android:layout_weight="1"
 			android:id="@+id/blank1"/>
 
-		<com.aquamorph.playstopper.SquareButton
+		<Button
 			style="?android:attr/borderlessButtonStyle"
 			android:layout_width="0dp"
-			android:layout_height="wrap_content"
+			android:layout_height="fill_parent"
 			android:layout_weight="1"
 			android:text="@string/button0"
 			android:textSize="@dimen/dial_button_text"
@@ -121,7 +125,7 @@
 
 		<RelativeLayout
 			android:layout_width="0dp"
-			android:layout_height="wrap_content"
+			android:layout_height="fill_parent"
 			android:layout_weight="1"
 			android:id="@+id/blank2"/>
 
