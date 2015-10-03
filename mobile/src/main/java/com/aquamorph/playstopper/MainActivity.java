@@ -30,6 +30,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 	private boolean needReset = false;
 	static boolean userChoice = true;
 	Timer clock = new Timer();
+	View dial;
+	Button dialButtons[] = new Button[10];
+	TextView timeDisplayText;
+	Button start;
 
 	//Menu Options
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -48,74 +52,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		//Load ads
-		AdView mAdView = (AdView) findViewById(R.id.adView);
-		AdRequest adRequest = new AdRequest.Builder()
-				.addTestDevice(getResources().getString(R.string.nexus_5_test_id))
-				.build();
-		mAdView.loadAd(adRequest);
-
 		loadPreferences();
 		theme(this);
 
-		//Dial buttons
-		final View dial = findViewById(R.id.dial);
-		Button dialButtons[] = new Button[10];
-		dialButtons[0] = (Button) dial.findViewById(R.id.number0);
-		dialButtons[1] = (Button) dial.findViewById(R.id.number1);
-		dialButtons[2] = (Button) dial.findViewById(R.id.number2);
-		dialButtons[3] = (Button) dial.findViewById(R.id.number3);
-		dialButtons[4] = (Button) dial.findViewById(R.id.number4);
-		dialButtons[5] = (Button) dial.findViewById(R.id.number5);
-		dialButtons[6] = (Button) dial.findViewById(R.id.number6);
-		dialButtons[7] = (Button) dial.findViewById(R.id.number7);
-		dialButtons[8] = (Button) dial.findViewById(R.id.number8);
-		dialButtons[9] = (Button) dial.findViewById(R.id.number9);
-
-		//Display button and text
-		final View display = findViewById(R.id.display);
-		final TextView timeDisplayText = (TextView) display.findViewById(R.id.timer);
-		Button delete = (Button) display.findViewById(R.id.delete);
-
-		//Play and pause button
-		final View button = findViewById(R.id.buttons);
-		final Button start = (Button) button.findViewById(R.id.start);
-		start.setText("Start");
-
-		//Scrolls through dial button onClickListners
-		for (int i = 0; i < dialButtons.length; i++) {
-			final int number = i;
-			dialButtons[i].setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					addValueToString(number);
-					Log.i(TAG, "Button "+number+" Clicked");
-					timeDisplayText.setText(displayText());
-				}
-			});
-		}
-
-		//onClickListner for the display delete button
-		delete.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				subtractValueToString();
-				timeDisplayText.setText(displayText());
-				Log.i(TAG, "Button Delete Clicked");
-			}
-		});
-
-		//onClickListner for the start button
-		start.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Log.i(TAG, "Button Start Clicked");
-				if (clock.hasTimerFinished)
-					timerPause();
-				else
-					timerStart();
-			}
-		});
+		listener();
 
 		Thread updateDisplayText = new Thread() {
 
@@ -165,6 +105,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+		Log.i(TAG, "Destroy");
 	}
 
 	@Override
@@ -177,11 +118,13 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
 		if(newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-//			setContentView(R.layout.activity_main);
+			setContentView(R.layout.activity_main);
+			listener();
 			Log.i(TAG,"Landscape");
 		} else if(newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-//			setContentView(R.layout.activity_main);
-			Log.i(TAG,"Portrait");
+			setContentView(R.layout.activity_main);
+			Log.i(TAG, "Portrait");
+			listener();
 		}
 	}
 
@@ -240,7 +183,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 			timeText += value;
 		}
 		timeText = trimLeadingZeros(timeText);
-		Log.i(TAG, "timeText: "+timeText);
+		Log.i(TAG, "timeText: " + timeText);
 		Log.i(TAG, "display: "+displayText());
 	}
 
@@ -341,6 +284,73 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
 	@Override
 	public void onAudioFocusChange(int arg0) {
+	}
+
+	public void listener() {
+		//Load ads
+		AdView mAdView = (AdView) findViewById(R.id.adView);
+		AdRequest adRequest = new AdRequest.Builder()
+				.addTestDevice(getResources().getString(R.string.nexus_5_test_id))
+				.build();
+		mAdView.loadAd(adRequest);
+
+		//Dial buttons
+		dial = findViewById(R.id.dial);
+		dialButtons[0] = (Button) dial.findViewById(R.id.number0);
+		dialButtons[1] = (Button) dial.findViewById(R.id.number1);
+		dialButtons[2] = (Button) dial.findViewById(R.id.number2);
+		dialButtons[3] = (Button) dial.findViewById(R.id.number3);
+		dialButtons[4] = (Button) dial.findViewById(R.id.number4);
+		dialButtons[5] = (Button) dial.findViewById(R.id.number5);
+		dialButtons[6] = (Button) dial.findViewById(R.id.number6);
+		dialButtons[7] = (Button) dial.findViewById(R.id.number7);
+		dialButtons[8] = (Button) dial.findViewById(R.id.number8);
+		dialButtons[9] = (Button) dial.findViewById(R.id.number9);
+
+		//Display button and text
+		final View display = findViewById(R.id.display);
+		timeDisplayText = (TextView) display.findViewById(R.id.timer);
+		Button delete = (Button) display.findViewById(R.id.delete);
+
+		//Play and pause button
+		final View button = findViewById(R.id.buttons);
+		start = (Button) button.findViewById(R.id.start);
+		start.setText("Start");
+
+		//Scrolls through dial button onClickListners
+		for (int i = 0; i < dialButtons.length; i++) {
+			final int number = i;
+			dialButtons[i].setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					addValueToString(number);
+					Log.i(TAG, "Button "+number+" Clicked");
+					timeDisplayText.setText(displayText());
+				}
+			});
+		}
+
+		//onClickListner for the display delete button
+		delete.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				subtractValueToString();
+				timeDisplayText.setText(displayText());
+				Log.i(TAG, "Button Delete Clicked");
+			}
+		});
+
+		//onClickListner for the start button
+		start.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Log.i(TAG, "Button Start Clicked");
+				if (clock.hasTimerFinished)
+					timerPause();
+				else
+					timerStart();
+			}
+		});
 	}
 
 }
