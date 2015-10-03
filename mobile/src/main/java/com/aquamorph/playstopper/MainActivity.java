@@ -20,6 +20,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 public class MainActivity extends AppCompatActivity implements OnClickListener, OnSharedPreferenceChangeListener, AudioManager.OnAudioFocusChangeListener {
 
 	private final String TAG = "MainActivity";
@@ -43,10 +46,17 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+
+		//Load ads
+		AdView mAdView = (AdView) findViewById(R.id.adView);
+		AdRequest adRequest = new AdRequest.Builder()
+				.addTestDevice(getResources().getString(R.string.nexus_5_test_id))
+				.build();
+		mAdView.loadAd(adRequest);
 
 		loadPreferences();
 		theme(this);
-		setContentView(R.layout.activity_main);
 
 		//Dial buttons
 		final View dial = findViewById(R.id.dial);
@@ -166,6 +176,13 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
+		if(newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+//			setContentView(R.layout.activity_main);
+			Log.i(TAG,"Landscape");
+		} else if(newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+//			setContentView(R.layout.activity_main);
+			Log.i(TAG,"Portrait");
+		}
 	}
 
 	@Override
