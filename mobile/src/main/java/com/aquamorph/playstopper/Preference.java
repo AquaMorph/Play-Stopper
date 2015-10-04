@@ -1,7 +1,6 @@
 package com.aquamorph.playstopper;
 
 import android.os.Bundle;
-import android.preference.PreferenceFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -12,12 +11,14 @@ public class Preference extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.pref_with_actionbar);
 
+		MainActivity.theme(this);
+
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
-		getSupportActionBar().setDisplayShowTitleEnabled(false);
+		getSupportActionBar().setTitle(R.string.action_settings);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-		getFragmentManager().beginTransaction().replace(R.id.content_frame, new MyPreferenceFragment()).commit();
+		getFragmentManager().beginTransaction().replace(R.id.content_frame, new PrefFragment()).commit();
 	}
 
 	@Override
@@ -35,10 +36,3 @@ public class Preference extends AppCompatActivity {
 	}
 }
 
-class MyPreferenceFragment extends PreferenceFragment {
-	@Override
-	public void onCreate(final Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		addPreferencesFromResource(R.xml.preference);
-	}
-}

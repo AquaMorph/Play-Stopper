@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 	Button dialButtons[] = new Button[10];
 	TextView timeDisplayText;
 	Button start;
+	Toolbar toolbar;
 
 	//Menu Options
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -53,9 +54,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
-		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-		setSupportActionBar(toolbar);
 
 		loadPreferences();
 		theme(this);
@@ -292,6 +290,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 	}
 
 	public void listener() {
+		//Toolbar
+		toolbar = (Toolbar) findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
+
 		//Load ads
 		AdView mAdView = (AdView) findViewById(R.id.adView);
 		AdRequest adRequest = new AdRequest.Builder()
