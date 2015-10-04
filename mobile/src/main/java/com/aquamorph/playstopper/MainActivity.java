@@ -1,8 +1,5 @@
 package com.aquamorph.playstopper;
 
-import android.media.AudioManager;
-import android.media.AudioManager.OnAudioFocusChangeListener;
-import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -11,240 +8,370 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.res.Configuration;
+import android.graphics.Color;
+import android.media.AudioManager;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.NumberPicker;
-import android.os.CountDownTimer;
-import android.preference.PreferenceManager;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
-public class MainActivity extends Activity implements OnClickListener, OnSharedPreferenceChangeListener, OnAudioFocusChangeListener {
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
-    private CountDownTimer countDownTimer;
-    private final long interval = 1 * 1000;
-    private long numberSeconds = 0;
-    private long numberMinutes = 0;
-    private long numberHours = 0;
-    private boolean hasBeenStarted = false;
-    private boolean isTimerRunning = false;
-    private boolean needReset = false;
-    static boolean userChoice = true;
-    Notifications notifications = new Notifications();
-    Toolbar toolbar;
+public class MainActivity extends AppCompatActivity implements OnClickListener, OnSharedPreferenceChangeListener, AudioManager.OnAudioFocusChangeListener {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+	private final String TAG = "MainActivity";
+	private String timeText = "";
+	private boolean needReset = false;
+	static boolean userChoice = true;
+	Timer clock = new Timer();
+	View dial;
+	Button dialButtons[] = new Button[10];
+	TextView timeDisplayText;
+	Button start;
+	Toolbar toolbar;
 
-        loadPreferences();
-        theme(this);
-        setContentView(R.layout.activity_main);
+	//Menu Options
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.action_settings:
+				Log.i(TAG, "Settings Item Clicked");
+				openSettings();
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
+	}
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.app_name);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
 
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()){
-                    case R.id.action_settings:
-                        openSettings();
-                        return true;
-                    default:
-                        return true;
-                }
-            }
-        });
-        toolbar.inflateMenu(R.menu.main);
+		loadPreferences();
+		theme(this);
 
-        final NumberPicker secondsPicker = (NumberPicker) findViewById(R.id.numberPickerSeconds);
-        secondsPicker.setMaxValue(59);
-        secondsPicker.setMinValue(0);
-        secondsPicker.setFormatter(new NumberPicker.Formatter() {
+		listener();
 
-            @Override
-            public String format(int value) {
-                return String.format("%02d", value);
-            }
-        });
-        final NumberPicker minutesPicker = (NumberPicker) findViewById(R.id.numberPickerMinutes);
-        minutesPicker.setMaxValue(59);
-        minutesPicker.setMinValue(0);
-        minutesPicker.setFormatter(new NumberPicker.Formatter() {
+		Thread updateDisplayText = new Thread() {
 
-            @Override
-            public String format(int value) {
-                return String.format("%02d", value);
-            }
-        });
-        final NumberPicker hoursPicker = (NumberPicker) findViewById(R.id.numberPickerHours);
-        hoursPicker.setMaxValue(24);
-        hoursPicker.setMinValue(0);
+			@Override
+			public void run() {
+				try {
+					while (!isInterrupted()) {
+						Thread.sleep(100);
+						runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								if (clock.isTimerRunning) {
+									timeDisplayText.setText(getTimerText());
+								}
+								if (clock.time < 900) {
+									timeDisplayText.setText(displayText());
+									if (clock.hasTimerFinished) {
+										pauseAudio();
+										clock.resetTimerFinish();
+										start.setText("Start");
+									}
+								}
+							}
+						});
+					}
+				} catch (InterruptedException e) {
+					Log.e(TAG, "updateDisplayTextError"+e);
+				}
+			}
+		};
 
-        Button start = (Button) findViewById(R.id.button2);
-        Button reset = (Button) findViewById(R.id.button1);
+		updateDisplayText.start();
+	}
 
-        start.setOnClickListener(new View.OnClickListener() {
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
 
-            @Override
-            public void onClick(View v) {
+	@Override
+	protected void onPause() {
+		super.onPause();
+	}
 
-                if (isTimerRunning == false) {
-                    if(secondsPicker.getValue() != 0) {
-                        numberSeconds = (secondsPicker.getValue()*1000);
-                    }
-                    if(minutesPicker.getValue() != 0) {
-                        numberMinutes = (minutesPicker.getValue()*1000*60);
-                    }
-                    if(hoursPicker.getValue() != 0) {
-                        numberHours = numberHours + (hoursPicker.getValue()*1000*60*60);
-                    }
-                    long timer = numberSeconds + numberMinutes + numberHours;
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		Log.i(TAG, "Destroy");
+	}
 
-                    timer(timer, interval);
+	@Override
+	protected void onResume() {
+		super.onResume();
+		checkForReset();
+	}
 
-                    countDownTimer.start();
-                    hasBeenStarted = true;
-                    isTimerRunning = true;
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		if(newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+			setContentView(R.layout.activity_main);
+			listener();
+			Log.i(TAG,"Landscape");
+		} else if(newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+			setContentView(R.layout.activity_main);
+			Log.i(TAG, "Portrait");
+			listener();
+		}
+	}
 
-                    notifications.timer(MainActivity.this,"Play Stopper","0:0:0");
-                }
-            }
-        });
+	@Override
+	protected void onStop() {
+		super.onStop();
+	}
 
-        reset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (hasBeenStarted == true) {
-                    countDownTimer.cancel();
-                    isTimerRunning = false;
-                    secondsPicker.setValue(0);
-                    minutesPicker.setValue(0);
-                    hoursPicker.setValue(0);
-                    numberSeconds = 0;
-                    numberMinutes = 0;
-                    numberHours = 0;
-                }
-            }
-        });
-    }
+	@Override
+	public void onClick(DialogInterface dialog, int which) {
+	}
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
+	public void loadPreferences() {
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+		boolean night = settings.getBoolean("nightmode", false);
+		settings.registerOnSharedPreferenceChangeListener(MainActivity.this);
+		userChoice = night;
+	}
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
+	public static void theme(Activity activity) {
+		if (userChoice) {
+			activity.setTheme(R.style.Dark);
+//			if (Build.VERSION.SDK_INT >= 21) {
+//				activity.getWindow().setNavigationBarColor(activity.getResources().getColor(R.color.primary_dark_material_dark));
+//				activity.getWindow().setStatusBarColor(activity.getResources().getColor(R.color.primary_dark_material_dark));
+				activity.getWindow().getDecorView().setBackgroundColor(activity.getResources().getColor(R.color.primary_dark_material_dark));
+//			}
+		}
+		else {
+			activity.setTheme(R.style.Light);
+		}
+	}
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        checkForReset();
-    }
+	public void checkForReset() {
+		while (needReset) {
+			needReset = false;
+			finish();
+			startActivity(getIntent());
+		}
+	}
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-    }
+	public void openSettings() {
+		Intent intent = new Intent(MainActivity.this, Preference.class);
+		startActivity(intent);
+	}
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
+	@Override
+	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+		loadPreferences();
+		needReset = true;
+	}
 
-    //Creates Menu
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
+	//Adds and interger value at the end of the timeText string
+	public void addValueToString(int value) {
+		if (timeText.length() < 6) {
+			timeText += value;
+		}
+		timeText = trimLeadingZeros(timeText);
+		Log.i(TAG, "timeText: " + timeText);
+		Log.i(TAG, "display: "+displayText());
+	}
 
-    @Override
-    public void onClick(DialogInterface dialog, int which) {
-    }
+	//Deleted the last character in the timeText string
+	public void subtractValueToString() {
+		if (!timeText.equals("")) {
+			timeText = timeText.substring(0, timeText.length()-1);
+		}
+		Log.i(TAG, "timeText: "+timeText);
+	}
 
-    public void loadPreferences() {
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        boolean test = settings.getBoolean("nightmode", false);
-        settings.registerOnSharedPreferenceChangeListener(MainActivity.this);
-        if (test == true)userChoice=true;
-        else if (test == false)userChoice=false;
-    }
+	//Convert timeText to display
+	public String displayText() {
+		return sixCharacterTime().substring(0, 2)+":"+sixCharacterTime().substring(2, 4)+":"+sixCharacterTime().substring(4, 6);
+	}
 
-    public static void theme(Activity activity) {
-        if (userChoice==true)activity.setTheme(R.style.HoloDark);
-        else if (userChoice==false)activity.setTheme(R.style.HoloLight);
-    }
+	//clears leading zeros from a string
+	private static String trimLeadingZeros(String source) {
+		int length = source.length();
+		int i;
 
-    public void checkForReset() {
-        while (needReset==true) {
-            needReset = false;
-            finish();
-            startActivity(getIntent());
-        }
-    }
+		if (length < 2)
+			return source;
 
-    public void openSettings() {
-        Intent intent = new Intent(MainActivity.this, Preference.class);
-        startActivity(intent);
-    }
+		for (i = 0; i < length-1; i++) {
+			char c = source.charAt(i);
+			if (c != '0')
+				break;
+		}
 
-    public void timer(Long timer, Long interval) {
-        final NumberPicker secondsPicker = (NumberPicker) findViewById(R.id.numberPickerSeconds);
-        final NumberPicker minutesPicker = (NumberPicker) findViewById(R.id.numberPickerMinutes);
-        final NumberPicker hoursPicker = (NumberPicker) findViewById(R.id.numberPickerHours);
+		if (i == 0)
+			return source;
 
-        countDownTimer = new CountDownTimer(timer, interval) {
+		return source.substring(i);
+	}
 
-            public void onTick(long millisUntilFinished) {
+	public String sixCharacterTime() {
+		String text = timeText;
+		for (int i = 6-timeText.length(); i > 0; i--) {
+			text = "0"+text;
+		}
+		return text;
+	}
 
-                int displaySeconds = (int) (millisUntilFinished / 1000) % 60 ;
-                int displayMinutes = (int) ((millisUntilFinished / (1000*60)) % 60);
-                int displayHours   = (int) ((millisUntilFinished / (1000*60*60)) % 24);
-                secondsPicker.setValue(displaySeconds);
-                minutesPicker.setValue(displayMinutes);
-                hoursPicker.setValue(displayHours);
-                notifications.timer(MainActivity.this,"Play Stopper",Long.toString(displayHours)+
-                        ":"+Long.toString(displayMinutes)+":"+Long.toString(displaySeconds));
+	//Returns hours of the timer
+	public int getHours() {
+		return Integer.parseInt(sixCharacterTime().substring(0, 2));
+	}
 
-            }
-            public void onFinish() {
-                secondsPicker.setValue(0);
-                minutesPicker.setValue(0);
-                hoursPicker.setValue(0);
-                numberSeconds = 0;
-                numberMinutes = 0;
-                numberHours = 0;
-                isTimerRunning = false;
-                userChoice = true;
-                notifications.timer(MainActivity.this,"Play Stopper","0:0:0");
-                pauseAudio();
-            }
-        };
-    }
+	//Returns minutes of the timer
+	public int getMinutes() {
+		return Integer.parseInt(sixCharacterTime().substring(2, 4));
+	}
 
-    public void pauseAudio() {
-        AudioManager mAudioManager = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
-        if(mAudioManager.isMusicActive()) {
-            int result = mAudioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
-            if(result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED){
-            }
-        }
-    }
+	//Returns seconds of the timer
+	public int getSeconds() {
+		return Integer.parseInt(sixCharacterTime().substring(4, 6));
+	}
 
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,String key) {
-        loadPreferences();
-        needReset = true;
-    }
+	//Returns milliseconds of the timer
+	public long getMilliseconds() {
+		return getHours()*3600000+getMinutes()*60000+getSeconds()*1000;
+	}
 
-    @Override
-    public void onAudioFocusChange(int arg0) {}
+	//Returns the time of the clock in the standard format
+	public String getTimerText() {
+		return String.format("%02d", clock.displayHours)+":"+String.format("%02d", clock.displayMinutes)+":"+String.format("%02d", clock.displaySeconds);
+	}
+
+	public void pauseAudio() {
+		AudioManager mAudioManager = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
+		if (mAudioManager.isMusicActive()) {
+			mAudioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+		}
+	}
+
+	//Handles pausing of the timer
+	public void timerPause() {
+		final View button = findViewById(R.id.buttons);
+		final Button start = (Button) button.findViewById(R.id.start);
+		//Display button and text
+		final View display = findViewById(R.id.display);
+		final TextView timeDisplayText = (TextView) display.findViewById(R.id.timer);
+		start.setText("Start");
+		timeText = String.format("%02d", clock.displayHours)+String.format("%02d", clock.displayMinutes)+String.format("%02d", clock.displaySeconds);
+		timeDisplayText.setText(getTimerText());
+		clock.stop();
+	}
+
+	//Handles starting of the timer
+	public void timerStart() {
+		clock.timer(getMilliseconds(), (long) 1000);
+		clock.start();
+		final View button = findViewById(R.id.buttons);
+		final Button start = (Button) button.findViewById(R.id.start);
+		start.setText("Pause");
+	}
+
+	@Override
+	public void onAudioFocusChange(int arg0) {
+	}
+
+	public void listener() {
+		//Toolbar
+		toolbar = (Toolbar) findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
+
+		//Load ads
+		AdView mAdView = (AdView) findViewById(R.id.adView);
+		AdRequest adRequest = new AdRequest.Builder()
+				.addTestDevice(getResources().getString(R.string.nexus_5_test_id))
+				.addTestDevice(getResources().getString(R.string.moto_g_test_id))
+				.build();
+		mAdView.loadAd(adRequest);
+
+		//Dial buttons
+		dial = findViewById(R.id.dial);
+		dialButtons[0] = (Button) dial.findViewById(R.id.number0);
+		dialButtons[1] = (Button) dial.findViewById(R.id.number1);
+		dialButtons[2] = (Button) dial.findViewById(R.id.number2);
+		dialButtons[3] = (Button) dial.findViewById(R.id.number3);
+		dialButtons[4] = (Button) dial.findViewById(R.id.number4);
+		dialButtons[5] = (Button) dial.findViewById(R.id.number5);
+		dialButtons[6] = (Button) dial.findViewById(R.id.number6);
+		dialButtons[7] = (Button) dial.findViewById(R.id.number7);
+		dialButtons[8] = (Button) dial.findViewById(R.id.number8);
+		dialButtons[9] = (Button) dial.findViewById(R.id.number9);
+
+		//Display button and text
+		final View display = findViewById(R.id.display);
+		timeDisplayText = (TextView) display.findViewById(R.id.timer);
+		ImageButton delete = (ImageButton) display.findViewById(R.id.delete);
+		delete.setColorFilter(Color.argb(255, 100, 181, 246));
+
+		//Play and pause button
+		final View button = findViewById(R.id.buttons);
+		start = (Button) button.findViewById(R.id.start);
+		start.setText("Start");
+
+		//Scrolls through dial button onClickListners
+		for (int i = 0; i < dialButtons.length; i++) {
+			final int number = i;
+			dialButtons[i].setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					addValueToString(number);
+					Log.i(TAG, "Button "+number+" Clicked");
+					timeDisplayText.setText(displayText());
+				}
+			});
+		}
+
+		//onClickListner for the display delete button
+		delete.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				subtractValueToString();
+				timeDisplayText.setText(displayText());
+				Log.i(TAG, "Button Delete Clicked");
+			}
+		});
+		delete.setOnLongClickListener(new View.OnLongClickListener() {
+			@Override
+			public boolean onLongClick(View v) {
+				subtractValueToString();
+				subtractValueToString();
+				subtractValueToString();
+				subtractValueToString();
+				subtractValueToString();
+				subtractValueToString();
+				return true;
+			}
+		});
+
+		//onClickListner for the start button
+		start.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Log.i(TAG, "Button Start Clicked");
+				if (clock.hasTimerFinished)
+					timerPause();
+				else
+					timerStart();
+			}
+		});
+	}
 
 }

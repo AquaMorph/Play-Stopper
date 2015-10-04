@@ -20,7 +20,7 @@
         android:title="About" >
         <PreferenceScreen
             android:key="preferencescreen_about"
-            android:title="Version 1.0.2"
+            android:title="Version 1.2.0"
             android:summary="" />
     </PreferenceCategory>
 

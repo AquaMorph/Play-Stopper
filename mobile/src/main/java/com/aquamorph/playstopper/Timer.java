@@ -1,27 +1,53 @@
 package com.aquamorph.playstopper;
 
-import android.app.Activity;
 import android.os.CountDownTimer;
+import android.util.Log;
 
-public class Timer extends Activity {
+public class Timer {
 
-    public static CharSequence convertTimeToString(CountDownTimer countDownTimer, long millisUntilFinished) {
-        String time, minuteZero, secondZero;
-        Long displaySeconds = (long) (millisUntilFinished / 1000) % 60 ;
-        Long displayMinutes = (long) ((millisUntilFinished / (1000*60)) % 60);
-        Long displayHours   = (long) ((millisUntilFinished / (1000*60*60)) % 24);
-        String seconds = String.valueOf(displaySeconds);
-        String minutes = String.valueOf(displayMinutes);
-        if (seconds.length()<=1 ) {
-            secondZero = "0";
-        } else secondZero = "";
-        if (minutes.length()<=1 ) {
-            minuteZero = "0";
-        } else minuteZero = "";
-        time = (displayHours + ":" + minuteZero + displayMinutes + ":" + secondZero + displaySeconds);
-        return time;
-    }
+	private final String TAG = "Timer";
+	public CountDownTimer countDownTimer;
+	public long time = 0;
+	public boolean isTimerRunning = false;
+	public boolean hasTimerFinished = false;
+	public int displaySeconds, displayMinutes, displayHours;
 
+	public void timer(Long timer, Long interval) {
 
+		countDownTimer = new CountDownTimer(timer, interval) {
 
+			public void onTick(long millisUntilFinished) {
+				displaySeconds = (int) (millisUntilFinished/1000)%60;
+				displayMinutes = (int) ((millisUntilFinished/(1000*60))%60);
+				displayHours = (int) ((millisUntilFinished/(1000*60*60))%24);
+				time = millisUntilFinished;
+				Log.i(TAG, "Time: "+millisUntilFinished);
+			}
+
+			public void onFinish() {
+				hasTimerFinished = true;
+				isTimerRunning = false;
+				time = 0;
+			}
+		};
+	}
+
+	//Starts the timer
+	public void start() {
+		hasTimerFinished = true;
+		isTimerRunning = true;
+		countDownTimer.start();
+	}
+
+	//Stops the timer
+	public void stop() {
+		hasTimerFinished = false;
+		isTimerRunning = false;
+		countDownTimer.cancel();
+	}
+
+	//Allows for other classes to reset the state of the timer
+	public void resetTimerFinish() {
+		hasTimerFinished = false;
+	}
 }

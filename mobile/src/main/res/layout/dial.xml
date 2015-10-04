@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="fill_parent"
+             android:layout_height="fill_parent"
+             android:orientation="horizontal">
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1">
+
+        <Button
+            android:id="@+id/number1"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:text="@string/button1"
+            android:textColor="@color/light_blue"
+            android:textSize="@dimen/dial_button_text"/>
+
+        <Button
+            android:id="@+id/number2"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:text="@string/button2"
+            android:textColor="@color/light_blue"
+            android:textSize="@dimen/dial_button_text"/>
+
+        <Button
+            android:id="@+id/number3"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:text="@string/button3"
+            android:textColor="@color/light_blue"
+            android:textSize="@dimen/dial_button_text"/>
+    </TableRow>
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1">
+
+        <Button
+            android:id="@+id/number4"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:text="@string/button4"
+            android:textColor="@color/light_blue"
+            android:textSize="@dimen/dial_button_text"/>
+
+        <Button
+            android:id="@+id/number5"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:text="@string/button5"
+            android:textColor="@color/light_blue"
+            android:textSize="@dimen/dial_button_text"/>
+
+        <Button
+            android:id="@+id/number6"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:text="@string/button6"
+            android:textColor="@color/light_blue"
+            android:textSize="@dimen/dial_button_text"/>
+    </TableRow>
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1">
+
+        <Button
+            android:id="@+id/number7"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:text="@string/button7"
+            android:textColor="@color/light_blue"
+            android:textSize="@dimen/dial_button_text"/>
+
+        <Button
+            android:id="@+id/number8"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:text="@string/button8"
+            android:textColor="@color/light_blue"
+            android:textSize="@dimen/dial_button_text"/>
+
+        <Button
+            android:id="@+id/number9"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:text="@string/button9"
+            android:textColor="@color/light_blue"
+            android:textSize="@dimen/dial_button_text"/>
+    </TableRow>
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1">
+
+        <RelativeLayout
+            android:id="@+id/blank1"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"/>
+
+        <Button
+            android:id="@+id/number0"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:text="@string/button0"
+            android:textColor="@color/light_blue"
+            android:textSize="@dimen/dial_button_text"/>
+
+        <RelativeLayout
+            android:id="@+id/blank2"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"/>
+
+    </TableRow>
+
+</TableLayout>
