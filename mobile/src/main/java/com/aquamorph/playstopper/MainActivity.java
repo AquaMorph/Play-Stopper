@@ -348,6 +348,18 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 				Log.i(TAG, "Button Delete Clicked");
 			}
 		});
+		delete.setOnLongClickListener(new View.OnLongClickListener() {
+			@Override
+			public boolean onLongClick(View v) {
+				subtractValueToString();
+				subtractValueToString();
+				subtractValueToString();
+				subtractValueToString();
+				subtractValueToString();
+				subtractValueToString();
+				return true;
+			}
+		});
 
 		//onClickListner for the start button
 		start.setOnClickListener(new View.OnClickListener() {
