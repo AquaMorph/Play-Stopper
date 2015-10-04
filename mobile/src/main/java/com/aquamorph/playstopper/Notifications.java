@@ -14,7 +14,7 @@ public class Notifications {
 		PendingIntent mapPendingIntent = PendingIntent.getActivity(activity, 0, mapIntent, 0);
 
 		//Pause Button
-		NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(activity).setSmallIcon(R.drawable.ic_launcher).setContentTitle(title).setContentText(text).addAction(R.drawable.ic_pause_white_48dp, "Pause", mapPendingIntent);
+		NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(activity).setSmallIcon(R.drawable.ic_launcher).setContentTitle(title).setContentText(text).addAction(R.drawable.ic_launcher, "Pause", mapPendingIntent);
 		NotificationManagerCompat notificationManager = NotificationManagerCompat.from(activity);
 		notificationManager.notify(notificationId, notificationBuilder.build());
 	}
